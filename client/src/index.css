@@ -157,10 +157,16 @@ button:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 .answer-content { justify-content: flex-start; padding-top: clamp(90px, 15vh, 156px); }
 .answer-content h2 { font-size: clamp(35px, 5vw, 68px); }
 .answer-grid { display: grid; grid-template-columns: repeat(5, minmax(38px, 1fr)); width: min(100%, 590px); gap: 7px; margin-top: 29px; }
-.answer-grid-ten { width: min(100%, 500px); }
 .answer-grid button { border: 1px solid rgba(234,248,225,.22); background: rgba(5, 14, 24, .58); color: #f2f7e9; padding: 11px 5px; font-family: "Archivo Black", sans-serif; font-size: 15px; letter-spacing: -.04em; transition: transform 140ms var(--ease-out), color 140ms var(--ease-out), background 140ms var(--ease-out), border-color 140ms var(--ease-out); }
 .answer-grid button:hover { transform: translateY(-2px); border-color: var(--lime); color: var(--ink); background: var(--lime); }
 .answer-grid button:active { transform: scale(.97); }
+.manual-answer { display: grid; grid-template-columns: auto minmax(90px, 150px) auto; align-items: center; gap: 8px; width: min(100%, 500px); margin-top: 13px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+.manual-answer input { min-width: 0; border: 1px solid rgba(234,248,225,.27); background: rgba(5,14,24,.55); color: var(--lime); padding: 9px 10px; font-family: "Archivo Black", sans-serif; font-size: 16px; letter-spacing: -.04em; outline: none; }
+.manual-answer input:focus { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(221,254,91,.11); }
+.manual-answer input::placeholder { color: rgba(158,178,181,.55); }
+.manual-answer button { border: 1px solid var(--lime); background: transparent; color: var(--lime); padding: 10px 12px; font-size: 10px; font-weight: 800; letter-spacing: .08em; transition: background 140ms var(--ease-out), color 140ms var(--ease-out); }
+.manual-answer button:hover:not(:disabled) { background: var(--lime); color: var(--ink); }
+.manual-answer button:disabled { cursor: not-allowed; opacity: .35; }
 .result-content h2 { font-size: clamp(29px, 4.1vw, 59px); }
 .result-content.is-correct h2 { color: var(--lime); }
 .result-content.is-miss h2 { color: #f0f4eb; }
@@ -224,6 +230,8 @@ button:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
   .answer-content { padding: 76px 22px 32px; }
   .answer-grid { gap: 5px; margin-top: 22px; }
   .answer-grid button { padding: 10px 3px; font-size: 13px; }
+  .manual-answer { grid-template-columns: 1fr auto; gap: 6px; }
+  .manual-answer label { grid-column: 1 / -1; }
   .manual-answer { grid-template-columns: 1fr auto; gap: 6px; }
   .manual-answer label { grid-column: 1 / -1; }
   .field-footnote { padding-top: 10px; font-size: 8px; }

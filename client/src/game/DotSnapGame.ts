@@ -14,6 +14,7 @@ export type GameSnapshot = {
   phase: GamePhase;
   round: number;
   tier: number;
+  densityLevel: number;
   revealDuration: number;
   revealProgress: number;
   score: number;
@@ -63,6 +64,7 @@ export class DotSnapGame {
   private dots: DotPoint[] = [];
   private dotsVisible = false;
   private tier = 1;
+  private densityLevel = 1;
   private revealDuration = 1150;
 
   constructor(options: DotSnapOptions) {
@@ -82,6 +84,7 @@ export class DotSnapGame {
     this.bestStreak = 0;
     this.correctAnswers = 0;
     this.tier = 1;
+    this.densityLevel = 1;
     this.revealDuration = 1150;
     this.revealProgress = 0;
     this.beginRound();
@@ -108,6 +111,7 @@ export class DotSnapGame {
     this.dots = [];
     this.dotsVisible = false;
     this.tier = 1;
+    this.densityLevel = 1;
     this.revealDuration = 1150;
     this.emit();
   }
@@ -189,8 +193,9 @@ export class DotSnapGame {
     this.scoreGain = 0;
     this.revealProgress = 0;
     const previousTier = this.tier;
-    this.tier = Math.min(10, 1 + Math.floor((this.round - 1) / 5));
-    this.targetCount = this.getRoundCount(this.round);
+    this.densityLevel = 1 + Math.floor((this.round - 1) / 5);
+    this.tier = Math.min(10, this.densityLevel);
+    this.targetCount = this.getRoundCount(this.densityLevel);
     this.dots = this.createDots(this.targetCount);
     this.revealDuration = this.options.demo ? 5000 : this.getRevealDuration(this.tier);
 
@@ -234,9 +239,10 @@ export class DotSnapGame {
     }, milliseconds);
   }
 
-  private getRoundCount(round: number) {
-    void round;
-    return 1 + Math.floor(this.nextRandom() * 10);
+  private getRoundCount(densityLevel: number) {
+    const floor = 2 + densityLevel * 2;
+    const ceiling = floor + 3 + Math.ceil(densityLevel * 0.75);
+    return floor + Math.floor(this.nextRandom() * (ceiling - floor + 1));
   }
 
   private getRevealDuration(tier: number) {
@@ -304,7 +310,7 @@ export class DotSnapGame {
 
   private emit() {
     this.options.onChange({
-      phase: this.phase, round: this.round, tier: this.tier, revealDuration: this.revealDuration, revealProgress: this.revealProgress,
+      phase: this.phase, round: this.round, tier: this.tier, densityLevel: this.densityLevel, revealDuration: this.revealDuration, revealProgress: this.revealProgress,
       score: this.score, scoreGain: this.scoreGain, bestScore: this.bestScore, streak: this.streak, comboMultiplier: this.comboMultiplier,
       bestStreak: this.bestStreak, correctAnswers: this.correctAnswers, targetCount: this.targetCount, answer: this.answer,
       difference: this.difference, correct: this.correct, dots: this.dots, dotsVisible: this.dotsVisible,
