@@ -188,12 +188,13 @@ export class DotSnapGame {
     this.correct = null;
     this.scoreGain = 0;
     this.revealProgress = 0;
-    this.tier = 1 + Math.floor((this.round - 1) / 5);
+    const previousTier = this.tier;
+    this.tier = Math.min(10, 1 + Math.floor((this.round - 1) / 5));
     this.targetCount = this.getRoundCount(this.round);
     this.dots = this.createDots(this.targetCount);
     this.revealDuration = this.options.demo ? 5000 : this.getRevealDuration(this.tier);
 
-    if (this.round > 1 && (this.round - 1) % 5 === 0) {
+    if (this.round > 1 && (this.round - 1) % 5 === 0 && this.tier > previousTier) {
       this.dotsVisible = false;
       this.phase = "levelup";
       this.options.onEffect?.("levelup");
@@ -239,7 +240,7 @@ export class DotSnapGame {
   }
 
   private getRevealDuration(tier: number) {
-    return Math.max(180, Math.round(1450 * Math.pow(0.8, tier - 1)));
+    return Math.max(180, Math.round(1450 * Math.pow(0.8, Math.min(10, tier) - 1)));
   }
 
   private createDots(count: number) {
