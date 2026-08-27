@@ -191,7 +191,7 @@ export class DotSnapGame {
     this.tier = 1 + Math.floor((this.round - 1) / 5);
     this.targetCount = this.getRoundCount(this.round);
     this.dots = this.createDots(this.targetCount);
-    this.revealDuration = this.options.demo ? 5000 : Math.max(180, 1150 - (this.tier - 1) * 118 - ((this.round - 1) % 5) * 32);
+    this.revealDuration = this.options.demo ? 5000 : this.getRevealDuration(this.tier);
 
     if (this.round > 1 && (this.round - 1) % 5 === 0) {
       this.dotsVisible = false;
@@ -234,10 +234,12 @@ export class DotSnapGame {
   }
 
   private getRoundCount(round: number) {
-    const tier = 1 + Math.floor((round - 1) / 5);
-    const floor = 2 + tier * 2;
-    const ceiling = floor + 3 + Math.ceil(tier * 0.75);
-    return floor + Math.floor(this.nextRandom() * (ceiling - floor + 1));
+    void round;
+    return 1 + Math.floor(this.nextRandom() * 10);
+  }
+
+  private getRevealDuration(tier: number) {
+    return Math.max(180, Math.round(1450 * Math.pow(0.8, tier - 1)));
   }
 
   private createDots(count: number) {
